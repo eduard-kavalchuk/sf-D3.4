@@ -5,7 +5,7 @@ metadata:
   labels:
     app: nginx
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: nginx
@@ -23,6 +23,17 @@ spec:
         - name: config
           mountPath: "/etc/nginx"
           readOnly: true
+        env:
+        - name: NGINX_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: sf-auth-nginx
+              key: username
+        - name: NGINX_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sf-auth-nginx
+              key: password
       volumes:
       - name: config
         configMap:
